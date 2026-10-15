@@ -71,6 +71,7 @@
 
   function salvar() {
     const antes = { livros: rascunho.livros.length, obras: rascunho.obras.length };
+    const recusados = D.linksRecusados(rascunho);
     const normalizado = D.normalizar(rascunho, PADRAO);
     const r = D.salvar(storage, normalizado);
     if (!r.ok) {
@@ -85,6 +86,7 @@
     const ignorados = [];
     if (normalizado.livros.length < antes.livros) ignorados.push((antes.livros - normalizado.livros.length) + ' livro(s) sem título');
     if (normalizado.obras.length < antes.obras) ignorados.push((antes.obras - normalizado.obras.length) + ' obra(s) sem título ou imagem');
+    if (recusados.length) ignorados.push('o que foi digitado em ' + recusados.join(', ') + ' (links precisam começar com https:// e o WhatsApp precisa ter DDD)');
     rascunho = normalizado;
     alterado = false;
     mostrarEstado(
@@ -473,10 +475,13 @@
   abas.forEach((aba, i) => {
     aba.addEventListener('click', () => ativarAba(aba));
     aba.addEventListener('keydown', (e) => {
-      const passo = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1 : e.key === 'ArrowUp' || e.key === 'ArrowLeft' ? -1 : 0;
-      if (!passo) return;
+      let proxima = null;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') proxima = abas[(i + 1) % abas.length];
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') proxima = abas[(i - 1 + abas.length) % abas.length];
+      if (e.key === 'Home') proxima = abas[0];
+      if (e.key === 'End') proxima = abas[abas.length - 1];
+      if (!proxima) return;
       e.preventDefault();
-      const proxima = abas[(i + passo + abas.length) % abas.length];
       ativarAba(proxima);
       proxima.focus();
     });

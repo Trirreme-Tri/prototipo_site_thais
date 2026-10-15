@@ -86,6 +86,7 @@ test('número de WhatsApp inválido é descartado', () => {
   assert.equal(D.digitosWhatsapp('123'), '');
   assert.equal(D.digitosWhatsapp('69 3535-0000'), '556935350000');
   assert.equal(D.digitosWhatsapp('+55 69 99999-0000'), '5569999990000');
+  assert.equal(D.digitosWhatsapp('069 99999-0000'), '5569999990000');
 });
 
 test('critério 10: preço vazio, preço em reais e vendido', () => {
@@ -94,6 +95,11 @@ test('critério 10: preço vazio, preço em reais e vendido', () => {
   assert.equal(D.formatarPreco(35), 'R$ 35,00');
   assert.equal(D.formatarPreco('35,5'), 'R$ 35,50');
   assert.equal(D.formatarPreco(-1), 'Preço sob consulta');
+  assert.equal(D.formatarPreco('35.50'), 'R$ 35,50');
+  assert.equal(D.formatarPreco('35.5'), 'R$ 35,50');
+  assert.equal(D.formatarPreco('1.234,56'), 'R$ 1.234,56');
+  assert.equal(D.formatarPreco('1.234'), 'R$ 1.234,00');
+  assert.equal(D.formatarPreco('R$ 20'), 'R$ 20,00');
   const c = conteudo({ livros: [{ titulo: 'X', status: 'vendido', preco: '20' }] });
   assert.equal(c.livros[0].status, 'vendido');
   assert.equal(c.livros[0].preco, 20);
@@ -165,4 +171,13 @@ test('limpar remove as alterações locais', () => {
   D.salvar(s, conteudo());
   assert.equal(D.limpar(s), true);
   assert.equal(D.carregar(s, PADRAO).local, false);
+});
+
+test('link do grupo apagado de propósito fica vazio; link sem https é recusado e avisado', () => {
+  const base = conteudo();
+  const semGrupo = D.normalizar({ ...base, comunidade: { ...base.comunidade, grupo: '' } }, PADRAO);
+  assert.equal(semGrupo.comunidade.grupo, '');
+  const rascunho = { ...base, perfil: { ...base.perfil, instagram: 'instagram.com/outra' }, contato: { ...base.contato, whatsapp: '123' } };
+  assert.deepEqual(D.linksRecusados(rascunho), ['Instagram', 'WhatsApp']);
+  assert.deepEqual(D.linksRecusados(base), []);
 });

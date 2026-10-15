@@ -25,7 +25,7 @@
     return valor.trim();
   }
 
-  // Aceita só https: e caminhos relativos do próprio site (assets/...) ou imagens data: do painel.
+  // Links editáveis: só https:. (Imagens usam imagemSegura, que também aceita assets/ e data:.)
   function linkSeguro(url) {
     if (typeof url !== 'string') return '';
     const limpo = url.trim();
@@ -43,8 +43,9 @@
   }
 
   // Números brasileiros com DDD (10 ou 11 dígitos) ganham o 55 do país.
+  // Zeros à esquerda ("069 ...", comum no Brasil) são descartados.
   function digitosWhatsapp(valor) {
-    const d = String(valor || '').replace(/\D/g, '');
+    const d = String(valor || '').replace(/\D/g, '').replace(/^0+/, '');
     if (d.length === 10 || d.length === 11) return '55' + d;
     if (d.length >= 12 && d.length <= 13) return d;
     return '';
@@ -52,7 +53,14 @@
 
   function preco(valor) {
     if (valor === null || valor === undefined || valor === '') return null;
-    const n = typeof valor === 'number' ? valor : Number(String(valor).replace(/\./g, '').replace(',', '.'));
+    let n;
+    if (typeof valor === 'number') n = valor;
+    else {
+      const t = String(valor).trim().replace(/^R\$\s*/i, '');
+      if (t.includes(',')) n = Number(t.replace(/\./g, '').replace(',', '.')); // 1.234,56
+      else if (/^\d+\.\d{1,2}$/.test(t)) n = Number(t); // 35.50
+      else n = Number(t.replace(/\./g, '')); // 1.234
+    }
     if (!Number.isFinite(n) || n < 0) return null;
     return Math.round(n * 100) / 100;
   }
@@ -144,8 +152,9 @@
       comunidade: {
         nome: texto(com.nome) || base.comunidade.nome,
         descricao: texto(com.descricao) || base.comunidade.descricao,
-        instagram: linkSeguro(com.instagram) || base.comunidade.instagram,
-        grupo: linkSeguro(com.grupo) || base.comunidade.grupo
+        // Na comunidade, um link apagado de propósito ('') continua vazio (o botão some do site).
+        instagram: 'instagram' in com ? linkSeguro(com.instagram) : base.comunidade.instagram,
+        grupo: 'grupo' in com ? linkSeguro(com.grupo) : base.comunidade.grupo
       },
       categorias: Array.isArray(b.categorias) && b.categorias.every((c) => typeof c === 'string' && c.trim())
         ? b.categorias.map((c) => c.trim())
@@ -309,6 +318,19 @@
     return { ok: true, conteudo: normalizar(dados, padrao) };
   }
 
+  // Links que a pessoa digitou e que não foram aceitos (para o painel avisar).
+  function linksRecusados(rascunho) {
+    const campos = [
+      ['Instagram', rascunho.perfil && rascunho.perfil.instagram],
+      ['Link do grupo', rascunho.comunidade && rascunho.comunidade.grupo],
+      ['Instagram da comunidade', rascunho.comunidade && rascunho.comunidade.instagram]
+    ];
+    const recusados = campos.filter(([, v]) => typeof v === 'string' && v.trim() !== '' && !linkSeguro(v)).map(([n]) => n);
+    if (rascunho.perfil && typeof rascunho.perfil.instagram === 'string' && rascunho.perfil.instagram.trim() === '') recusados.push('Instagram (não pode ficar vazio)');
+    if (rascunho.contato && String(rascunho.contato.whatsapp || '').trim() !== '' && !digitosWhatsapp(rascunho.contato.whatsapp)) recusados.push('WhatsApp');
+    return recusados;
+  }
+
   return {
     CHAVE,
     VERSAO,
@@ -332,6 +354,7 @@
     limpar,
     tamanhoSalvo,
     serializarParaPublicacao,
-    lerImportacao
+    lerImportacao,
+    linksRecusados
   };
 });

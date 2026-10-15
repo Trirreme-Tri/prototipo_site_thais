@@ -55,8 +55,9 @@
   $$('[data-cta-encomenda]').forEach((a) => {
     a.textContent = cta.rotulo;
     a.dataset.status = cta.status;
-    // Topo e hero levam à seção de encomendas; só o botão da seção abre o contato.
-    if (a.dataset.ctaEncomenda === 'externo') {
+    // Hero leva à seção de encomendas; o botão da seção abre o contato.
+    // Com encomendas fechadas, todos levam ao Instagram, para o rótulo bater com o destino.
+    if (a.dataset.ctaEncomenda === 'externo' || cta.status === 'fechada') {
       a.href = cta.href;
       a.target = '_blank';
       a.rel = 'noopener';
@@ -375,6 +376,20 @@
   window.addEventListener('scroll', agendar, { passive: true });
   window.addEventListener('resize', () => { medirColecao(); agendar(); });
   $('[data-colecao-janela]').addEventListener('scroll', agendar, { passive: true });
+
+  // Teclado na coleção fixa: o foco não pode rolar a janela por dentro (ela é movida pelo scroll da página).
+  // Levamos a página até o ponto em que o cartão focado aparece.
+  $('[data-colecao-janela]').addEventListener('focusin', (e) => {
+    if (!colecaoFixa) return;
+    const janela = $('[data-colecao-janela]');
+    janela.scrollLeft = 0;
+    const cartao = e.target.closest('.obra-cartao');
+    const desloca = Math.max(0, trilho.scrollWidth - window.innerWidth);
+    if (!cartao || !desloca) return;
+    const alvo = limitar((cartao.offsetLeft + cartao.offsetWidth / 2 - window.innerWidth / 2) / desloca, 0, 1);
+    const topo = cenaColecao.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top: topo + (cenaColecao.offsetHeight - window.innerHeight) * alvo, behavior: 'instant' });
+  });
   window.addEventListener('load', () => { medirColecao(); agendar(); });
 
   if (semMovimento) {

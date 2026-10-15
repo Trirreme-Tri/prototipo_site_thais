@@ -84,7 +84,11 @@ def main():
                 pg.screenshot(path=str(FOTOS / f"{tela}-{i:02d}.png"))
             criterio(f"1. sem erros no console ({tela})", not erros, "; ".join(erros[:3]))
             criterio(f"2. sem rolagem horizontal ({tela})", not excesso, str(excesso[:2]))
-            sem_alt = pg.evaluate("Array.from(document.images).filter(i => !i.hasAttribute('alt')).map(i => i.src)")
+            # alt vazio só vale para imagem decorativa (dentro de aria-hidden ou marcada como decorativa).
+            sem_alt = pg.evaluate("""Array.from(document.images).filter(i =>
+              !i.hasAttribute('alt') ||
+              (i.getAttribute('alt').trim() === '' && !i.closest('[aria-hidden="true"]') && !i.hasAttribute('data-decorativa') && !i.closest('dialog:not([open])'))
+            ).map(i => i.className || i.src)""")
             criterio(f"16. toda imagem tem alt ({tela})", not sem_alt, str(sem_alt[:3]))
             ctx.close()
 
@@ -120,14 +124,16 @@ def main():
         pg.locator(".obra-cartao button").first.click()
         pg.wait_for_timeout(300)
         aberto = pg.evaluate("document.querySelector('[data-visor]').open")
+        alt_visor = pg.get_attribute("[data-visor-img]", "alt")
         titulo = pg.text_content("[data-visor-titulo]")
         tecnica = pg.text_content("[data-visor-tecnica]")
+        categoria = pg.text_content("[data-visor-categoria]")
         cta = pg.text_content("[data-visor-cta]")
         pg.screenshot(path=str(FOTOS / "visor-desktop.png"))
         pg.keyboard.press("Escape")
         pg.wait_for_timeout(200)
         fechado = not pg.evaluate("document.querySelector('[data-visor]').open")
-        criterio("7. visor abre com título, técnica e botão; Esc fecha", aberto and titulo and tecnica and cta and fechado,
+        criterio("7. visor abre com título, técnica, categoria e botão; Esc fecha", aberto and titulo and tecnica and categoria and cta and alt_visor and fechado,
                  f"aberto={aberto} titulo={titulo!r} fechado={fechado}")
         ctx.close()
 
@@ -154,6 +160,8 @@ def main():
         bloco.locator("input[type=text]").nth(0).fill("Dom Casmurro")
         bloco.locator("input[type=text]").nth(1).fill("Machado de Assis")
         bloco.locator("input[type=text]").nth(3).fill("35,00")
+        pg.click("#aba-textos")
+        pg.fill('input[type=tel]', "(69) 99999-0000")
         pg.click("[data-salvar]")
         estado = pg.text_content("[data-estado]")
         pg.screenshot(path=str(FOTOS / "painel-livros.png"), full_page=True)
@@ -168,6 +176,20 @@ def main():
         criterio("11. status 'aberta' no painel muda o botão do site", botao == "Encomende seu desenho", f"botão={botao!r} estado={estado!r}")
         criterio("12. livro novo com preço aparece no site", tem_livro, str(livros[-1:]))
         criterio("selo de alterações locais aparece", selo)
+        contato = site.get_attribute("[data-contato]", "href") or ""
+        interesse = site.get_attribute(".livro a.botao", "href") or ""
+        criterio("9. com WhatsApp preenchido, contato e 'Tenho interesse' vão para wa.me",
+                 contato.startswith("https://wa.me/5569999990000") and interesse.startswith("https://wa.me/5569999990000"),
+                 f"contato={contato[:40]} interesse={interesse[:40]}")
+
+        # Teclado na coleção fixa: focar um cartão do fim deixa o cartão visível.
+        site.evaluate("document.querySelector('#obras').scrollIntoView({behavior: 'instant'})")
+        site.locator(".obra-cartao button").nth(6).focus()
+        site.wait_for_timeout(400)
+        caixa = site.locator(".obra-cartao button").nth(6).bounding_box()
+        janela = site.evaluate("document.querySelector('[data-colecao-janela]').scrollLeft")
+        criterio("foco por teclado na coleção mostra o cartão", caixa and 0 <= caixa["x"] < 1440 - caixa["width"] / 2 and janela == 0,
+                 f"x={caixa and caixa['x']} scrollLeft={janela}")
 
         pg.on("dialog", lambda d: d.accept())
         pg.click("#aba-arquivo")

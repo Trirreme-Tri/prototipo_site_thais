@@ -356,9 +356,11 @@ h1, h2, h3, p { margin: 0; }
   width: min(30rem, 40vw);
   transform: translateY(calc(-50% + (1 - var(--pf)) * 6vh));
   opacity: var(--pf);
-  visibility: hidden;
+  pointer-events: none;
 }
-.cena-hero[data-final] .hero__intro { visibility: visible; }
+/* O texto continua acessível a leitores de tela; ao receber foco pelo teclado, aparece. */
+.cena-hero[data-final] .hero__intro { pointer-events: auto; }
+.hero__intro:focus-within { opacity: 1; pointer-events: auto; }
 .hero__titulo {
   font-family: var(--serif);
   font-weight: 400;
