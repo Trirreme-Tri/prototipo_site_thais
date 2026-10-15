@@ -24,7 +24,7 @@ window.TM_CONTEUDO_PADRAO = {
   },
   "comunidade": {
     "nome": "Vanguard Nexus",
-    "descricao": "Comunidade de arte com mais de 400 membros, collabs temáticas e duelos entre artistas.",
+    "descricao": "Mais de 400 membros, collabs temáticas e duelos entre artistas.",
     "instagram": "https://instagram.com/vanguard_nexus.ofc",
     "grupo": "https://chat.whatsapp.com/LaZUNn7ebiEF529UJsky1n?mode=hqrt2"
   },
