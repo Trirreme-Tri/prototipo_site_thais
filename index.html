@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Thais Matos · desenhista</title>
+  <meta name="description" content="Thais Matos, desenhista. Realismo com lápis de cor, retratos e personagens de terror, games, cinema, anime e mangá.">
+  <meta name="theme-color" content="#17141c">
+  <meta property="og:title" content="Thais Matos · desenhista">
+  <meta property="og:description" content="Do esboço à cor: retratos e personagens em realismo com lápis de cor.">
+  <meta property="og:type" content="website">
+  <link rel="preload" href="assets/fonts/bodoni-moda-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/schibsted-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script>
+    // Antes de pintar: avisa o CSS se o JS está ativo e se a pessoa prefere menos movimento.
+    document.documentElement.classList.add('js');
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('sem-movimento');
+  </script>
+</head>
+<body>
+  <a class="pular" href="#obras">Pular para as obras</a>
+
+  <header class="topo" data-topo>
+    <a class="topo__nome" href="#inicio" data-texto="perfil.nome">Thais Matos</a>
+    <nav class="topo__nav" aria-label="Seções" id="menu-secoes">
+      <a href="#processo">Processo</a>
+      <a href="#obras">Obras</a>
+      <a href="#artista">A artista</a>
+      <a href="#livros">Livros</a>
+    </nav>
+    <a class="botao botao--claro topo__cta" href="#encomendas">Encomendas</a>
+    <button class="topo__menu" type="button" aria-expanded="false" aria-controls="menu-secoes" data-menu>Menu</button>
+  </header>
+
+  <main>
+    <!-- 1. Hero: o esboço ganha cor conforme o scroll -->
+    <section class="cena cena-hero" id="inicio" data-cena="hero" aria-label="Apresentação">
+      <div class="palco">
+        <div class="hero__nome" aria-hidden="true">
+          <span class="hero__nome-linha">Thais</span>
+          <span class="hero__nome-linha hero__nome-linha--2">Matos</span>
+        </div>
+        <div class="hero__folha hero__folha--a" aria-hidden="true"></div>
+        <div class="hero__folha hero__folha--b" aria-hidden="true"></div>
+
+        <figure class="hero__obra" data-hero-obra>
+          <div class="hero__moldura">
+            <img class="hero__esboco" data-hero-esboco data-decorativa alt="" width="800" height="1000" decoding="async">
+            <img class="hero__cor" data-hero-cor alt="" width="800" height="1000" decoding="async">
+            <svg class="hero__traco" viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden="true">
+              <path pathLength="1" d="M3 4 C30 2.5 70 3.5 97 3 C97.8 40 96.6 85 97.4 122 C70 122.8 30 121.4 2.6 122.2 C3.4 85 2 40 3 4"/>
+            </svg>
+          </div>
+          <figcaption class="hero__legenda" data-hero-legenda></figcaption>
+        </figure>
+
+        <div class="hero__poeira" aria-hidden="true"></div>
+
+        <div class="hero__dica" aria-hidden="true">
+          <span>Role para dar cor</span>
+          <span class="hero__dica-linha"></span>
+        </div>
+
+        <div class="hero__intro">
+          <h1 class="hero__titulo">Do esboço à cor, uma camada de cada vez.</h1>
+          <p class="hero__bio" data-texto="perfil.bioCurta"></p>
+          <div class="hero__acoes">
+            <a class="botao botao--claro" href="#obras">Ver as obras</a>
+            <a class="botao botao--linha" data-cta-encomenda href="#encomendas">Encomendas</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. O papel em branco -->
+    <section class="cena cena-papel" id="papel" data-cena="papel" aria-label="O papel em branco">
+      <div class="palco">
+        <div class="papel__folha">
+          <p class="papel__linha"><span>Toda obra começa num papel em branco.</span></p>
+          <p class="papel__linha"><span>Depois vêm a linha, o esboço e as camadas de cor.</span></p>
+          <p class="papel__linha"><span>Até a pele ganhar textura, brilho e vida.</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Processo em quatro etapas -->
+    <section class="cena cena-processo" id="processo" data-cena="processo" aria-labelledby="titulo-processo">
+      <div class="palco">
+        <div class="processo">
+          <div class="processo__texto">
+            <h2 class="titulo-secao" id="titulo-processo">O processo</h2>
+            <ol class="etapas" data-etapas>
+              <li class="etapa" data-etapa="0">
+                <h3>Linha</h3>
+                <p>As primeiras linhas marcam proporção e posição. Leves, para poder corrigir.</p>
+              </li>
+              <li class="etapa" data-etapa="1">
+                <h3>Esboço</h3>
+                <p>O grafite define volumes, sombras e a expressão do rosto.</p>
+              </li>
+              <li class="etapa" data-etapa="2">
+                <h3>Camadas</h3>
+                <p>O lápis de cor entra em camadas finas, uma sobre a outra, até a cor ganhar profundidade.</p>
+              </li>
+              <li class="etapa" data-etapa="3">
+                <h3>Realismo</h3>
+                <p>Os detalhes finais: textura de pele, reflexos nos olhos e o brilho cósmico sobre a pele que marca o trabalho dela.</p>
+              </li>
+            </ol>
+          </div>
+          <div class="processo__obra" aria-hidden="true">
+            <div class="processo__moldura">
+              <img class="proc__esboco" data-proc-esboco alt="" width="800" height="1000" decoding="async" loading="lazy">
+              <img class="proc__cor" data-proc-cor alt="" width="800" height="1000" decoding="async" loading="lazy">
+            </div>
+            <div class="processo__barra"><span></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Camada por camada: vídeo, comparação e lupa -->
+    <section class="secao detalhe" id="detalhe" aria-labelledby="titulo-detalhe">
+      <div class="detalhe__cabeca">
+        <h2 class="titulo-secao" id="titulo-detalhe">Camada por camada</h2>
+        <p class="texto-apoio">Horas de lápis em poucos segundos, e o antes e depois de uma mesma obra. Passe o cursor ou toque na imagem para ver os detalhes de perto.</p>
+      </div>
+      <div class="detalhe__grade">
+        <figure class="detalhe__video">
+          <video data-video muted loop playsinline preload="none" width="540" height="676"></video>
+          <figcaption data-video-legenda>Timelapse do processo</figcaption>
+        </figure>
+        <figure class="comparar" data-comparar>
+          <div class="comparar__area">
+            <img class="comparar__depois" data-comparar-depois alt="" width="800" height="1000" loading="lazy" decoding="async">
+            <img class="comparar__antes" data-comparar-antes alt="" width="800" height="1000" loading="lazy" decoding="async">
+            <div class="comparar__divisa" aria-hidden="true"></div>
+            <div class="lupa" aria-hidden="true" data-lupa></div>
+          </div>
+          <label class="comparar__controle">
+            <span>Esboço</span>
+            <input type="range" min="0" max="100" value="50" data-comparar-range aria-label="Comparar esboço e obra finalizada">
+            <span>Finalizada</span>
+          </label>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 5. A coleção -->
+    <section class="cena cena-colecao" id="obras" data-cena="colecao" aria-labelledby="titulo-obras">
+      <div class="palco palco--colecao">
+        <div class="colecao__cabeca">
+          <h2 class="titulo-secao" id="titulo-obras">As obras</h2>
+          <div class="filtros" role="group" aria-label="Filtrar por categoria" data-filtros></div>
+        </div>
+        <div class="colecao__janela" data-colecao-janela>
+          <ul class="colecao__trilho" data-colecao-trilho></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. A artista -->
+    <section class="secao artista" id="artista" aria-labelledby="titulo-artista">
+      <h2 class="titulo-secao" id="titulo-artista">A artista</h2>
+      <div class="artista__grade">
+        <p class="artista__texto" data-texto="perfil.sobre"></p>
+        <dl class="artista__ficha">
+          <div><dt>Técnicas</dt><dd>Lápis de cor, grafite, pastel oleoso e pintura</dd></div>
+          <div><dt>Temas</dt><dd>Retratos, terror, games e cinema, anime e mangá</dd></div>
+          <div><dt>Fora do papel</dt><dd>Leitora e administradora da Vanguard Nexus</dd></div>
+        </dl>
+      </div>
+      <p class="aviso" data-aviso-sobre hidden>Texto provisório, montado a partir do perfil público. Aguardando o texto aprovado pela Thais.</p>
+    </section>
+
+    <!-- 7. Vanguard Nexus -->
+    <section class="secao nexus" id="nexus" aria-labelledby="titulo-nexus">
+      <div class="nexus__marca" aria-hidden="true">Nexus</div>
+      <div class="nexus__conteudo">
+        <h2 class="titulo-secao" id="titulo-nexus" data-texto="comunidade.nome">Vanguard Nexus</h2>
+        <p class="nexus__texto">A comunidade de arte que a Thais administra. <span data-texto="comunidade.descricao"></span></p>
+        <div class="nexus__acoes">
+          <a class="botao botao--claro" data-link="comunidade.grupo" target="_blank" rel="noopener">Entrar no grupo do WhatsApp</a>
+          <a class="botao botao--linha" data-link="comunidade.instagram" target="_blank" rel="noopener">Ver no Instagram</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. A estante -->
+    <section class="secao livros" id="livros" aria-labelledby="titulo-livros">
+      <div class="livros__cabeca">
+        <h2 class="titulo-secao" id="titulo-livros">A estante</h2>
+        <p class="texto-apoio">Desenhista e leitora. Alguns livros da estante dela estão à venda, usados.</p>
+      </div>
+      <ul class="estante" data-estante></ul>
+      <p class="aviso" data-aviso-livros hidden>Livros de exemplo. A lista real é preenchida pela Thais no painel.</p>
+    </section>
+
+    <!-- 9. Encomendas -->
+    <section class="secao encomendas" id="encomendas" aria-labelledby="titulo-encomendas">
+      <h2 class="encomendas__titulo" id="titulo-encomendas">Seu retrato começa aqui.</h2>
+      <div class="encomendas__grade">
+        <div>
+          <p class="status" data-status><span class="status__ponto" aria-hidden="true"></span><span data-status-texto></span></p>
+          <p class="encomendas__descricao" data-status-descricao></p>
+          <a class="botao botao--claro botao--grande" data-cta-encomenda="externo" href="#encomendas" target="_blank" rel="noopener">Encomendas</a>
+          <a class="link-simples" data-contato target="_blank" rel="noopener">Fale com a Thais</a>
+        </div>
+        <div>
+          <h3 class="encomendas__sub">Como funciona</h3>
+          <ol class="passos" data-passos></ol>
+          <p class="aviso" data-aviso-passos hidden>Passos provisórios, a confirmar com a Thais. Preços e prazos são combinados direto com ela.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p class="rodape__nome" data-texto="perfil.nome">Thais Matos</p>
+    <ul class="rodape__links">
+      <li><a data-link="perfil.instagram" target="_blank" rel="noopener">Instagram</a></li>
+      <li><a data-link="comunidade.instagram" target="_blank" rel="noopener">Vanguard Nexus</a></li>
+    </ul>
+    <p class="rodape__credito">Site desenvolvido pela <a href="https://instagram.com/trirreme_systems" target="_blank" rel="noopener">TRIRREME</a></p>
+  </footer>
+
+  <dialog class="visor" data-visor aria-labelledby="visor-titulo">
+    <div class="visor__corpo">
+      <figure class="visor__figura">
+        <img data-visor-img alt="">
+      </figure>
+      <div class="visor__ficha">
+        <p class="visor__categoria" data-visor-categoria></p>
+        <h2 class="visor__titulo" id="visor-titulo" data-visor-titulo></h2>
+        <dl class="visor__dados">
+          <div><dt>Técnica</dt><dd data-visor-tecnica></dd></div>
+          <div data-visor-ano-linha><dt>Ano</dt><dd data-visor-ano></dd></div>
+        </dl>
+        <p class="aviso" data-visor-aviso hidden>Marcador do protótipo. Esta obra será trocada pelo scan real enviado pela Thais.</p>
+        <a class="botao botao--claro" data-visor-cta target="_blank" rel="noopener">Quero um desenho assim</a>
+        <div class="visor__nav">
+          <button type="button" class="botao botao--linha" data-visor-anterior>Anterior</button>
+          <button type="button" class="botao botao--linha" data-visor-proxima>Próxima</button>
+        </div>
+      </div>
+      <button type="button" class="visor__fechar" data-visor-fechar>Fechar</button>
+    </div>
+  </dialog>
+
+  <div class="selo-local" data-selo-local hidden>
+    <p>Você está vendo as alterações do painel salvas neste navegador.</p>
+    <a href="painel.html">Abrir o painel</a>
+  </div>
+
+  <noscript><p class="sem-js">Este site precisa de JavaScript para mostrar as obras e os livros.</p></noscript>
+
+  <script src="assets/js/conteudo-padrao.js"></script>
+  <script src="assets/js/dados.js"></script>
+  <script src="assets/js/site.js"></script>
+</body>
+</html>
